@@ -15,6 +15,11 @@ p.title
 	margin-bottom:10px;
 }
 
+#yellowRing
+{
+	flood-color:white	;
+}
+
 div.bar
 {
 	display: inline-block;

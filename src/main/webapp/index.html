@@ -5,6 +5,7 @@
 	<script type="text/javascript" src="js/testing.js"></script>
 	<script type="text/javascript" src="js/HandleData.js"></script>
 	<script type="text/javascript" src="js/Banner.js"></script>
+	<script type="text/javascript" src="libs/svg.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/test.css" />
 
@@ -12,21 +13,45 @@
 </head>
 
 <body>
-    <p class="title">USA OLYMPIC MEDALS</p>
+    <p class="title">USA OLYMPIC MEDALS
+		<svg id="blueRing" class="rings" width="50" height="50">
+			<circle cx="25" cy="25" r="22"
+			 fill="blue" stroke="gray" stroke-width="2"/>
+		</svg>
+		<svg id="blackRing" class="rings" width="50" height="50">
+			<circle cx="25" cy="25" r="22"
+			 fill="black" stroke="gray" stroke-width="2"/>
+		</svg>
+		<svg id="redRing" class="rings" width="50" height="50">
+			<circle cx="25" cy="25" r="22"
+			 fill="red" stroke="gray" stroke-width="2"/>
+		</svg>
+		<svg id="yellowRing" class="rings" width="50" height="50">
+			<circle cx="25" cy="25" r="22"
+			 fill="yellow" stroke="gray" stroke-width="2"/>
+		</svg>
+		<svg id="greenRing" class="rings" width="50" height="50">
+			<circle cx="25" cy="25" r="22"
+			 fill="green" stroke="gray" stroke-width="2"/>
+		</svg>
+		<script>
+			var blueCircle = draw.circle(50)
+			blueCircle.attr('fill', '#f06');
+		</script>
+    </p>
+
+
+
 	<script type="text/javascript">
 		d3.select("body")
 		  .append("div")
-		  .attr("class", "bar")
+		  .attr("class", "bar");
 	</script>
-<<<<<<< HEAD
-	  
-=======
-	  <p>asdasdasd</p>
-	  <p>Chris was here!</p>
-	  
+
+
 	  <script>loadData() </script>
 	  <button id="test" onClick="printData()"> Data </button>
->>>>>>> Data & Banners
+	  <button id="sortGold" onClick="sortByGold()"> Sort By Gold </button>
 </body>
 
 </html>
