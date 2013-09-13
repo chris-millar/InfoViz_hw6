@@ -4,13 +4,17 @@
 	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/testing.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="css/test.css" />
+
 	<title>D3 Test!</title>
 </head>
 
 <body>
-	<button onclick="displayText()">Display Date</button>
+	<button id="displayTextButton" onclick="displayText()"> Display Date </button>
 	<script type="text/javascript">
-		d3.select("body").append("p").text("New paragraph!");
+		d3.select("body")
+		  .append("p")
+		  .text("New paragraph!");
 	</script>
 	  <p>asdasdasd</p>
 </body>
