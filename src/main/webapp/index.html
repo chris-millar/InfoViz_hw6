@@ -1,7 +1,17 @@
 <html>
 <head>
-<title>Dummy Page!</title>
+	<script type="text/javascript" src="libs/d3.v3.min.js"></script>
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/testing.js"></script>
+
+	<title>D3 Test!</title>
 </head>
+
 <body>
+	<button onclick="displayText()">Display Date</button>
+	<script type="text/javascript">
+		d3.select("body").append("p").text("New paragraph!");
+	</script>
 </body>
+
 </html>
