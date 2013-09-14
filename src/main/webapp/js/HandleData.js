@@ -1,6 +1,6 @@
-var parsedData = []
-var parsedData2 = []
-var WTF = []
+var parsedData = [];
+var parsedData2 = [];
+var years = [];
 
 function loadData()
 {
@@ -9,7 +9,11 @@ function loadData()
 
 		for (i=0; i < medals.length; ++i)
 		{
-			WTF[i] = Banner(medals[i].Year, medals[i].Games, medals[i].Gold, medals[i].Silver, medals[i].Bronze, medals[i].Total, medals[i].Comments);
+			parsedData[i] = medals[i];
+		}
+		for (i = 0; i< medals.length; ++i)
+		{
+		    years[i] = parsedData[i].Year;
 		}
 	});
 

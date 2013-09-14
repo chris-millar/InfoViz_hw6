@@ -12,21 +12,31 @@
 </head>
 
 <body>
+    
     <p class="title">USA OLYMPIC MEDALS</p>
+    <div id="bars"></div>
+    <script>loadData() </script>
+	<button id="Button1" onClick="printData()"> Data </button>
 	<script type="text/javascript">
-		d3.select("body")
-		  .append("div")
-		  .attr("class", "bar")
-	</script>
-<<<<<<< HEAD
+	
+	var medalBars = d3.select("#bars").data(years).enter().append("g").
+	  attr("class", "bar");
 	  
-=======
+	
+	  
+
+
+	
+		  
+		 
+     
+	</script>
+
 	  <p>asdasdasd</p>
 	  <p>Chris was here!</p>
 	  
-	  <script>loadData() </script>
-	  <button id="test" onClick="printData()"> Data </button>
->>>>>>> Data & Banners
+	  
+
 </body>
 
 </html>
