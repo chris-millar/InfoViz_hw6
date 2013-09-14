@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+</head>
+<body>
+<div id = "viz"></div>
+<script type = "text/javascript">
+var w = 300, //width 
+         h = 300, //height 
+         r = 100; //radius 
+ /*        color = d3.scale.ordinal().range(["#ff5200", "#ff8f00", 
+ "#ffc200", "#fff500", "#beea00", "#1dd100", "#ff5200", "#ff8f00", 
+ "#ffc200"]); */
+
+ var data = [45,76,324,75,86,32];
+ 
+    var vis = d3.select("#viz") 
+         .append("svg:svg") 
+         .data(data) 
+         .attr("width", w) 
+         .attr("height", h) 
+         .append("svg:g") 
+         .attr("transform", "translate(" + r + "," + r + ")"); 
+
+    var arc = d3.svg.arc() 
+         .outerRadius(r); 
+
+    var pie = d3.layout.pie() 
+         .value(function (d) { return d; }); 
+
+    var arcs = vis.selectAll("g.slice") 
+         .data(pie) 
+         .enter() 
+         .append("svg:g") 
+         .attr("class", "slice") 
+         .on("mouseover", function (d, i) { 
+            d3.select("body").select("p").text(d); 
+         }); 
+
+    arcs.append("svg:path") 
+                 .attr("fill", "aliceblue")
+				.attr("stroke","#000000")
+                 .attr("d", arc); 
+
+   /* var key = $("#rep_code1_update_categories_key"); 
+     for (var f = 0; f < data.length; f++) { 
+         key.append($('<div id=viz_legend' + 
+ suData[f].CategoryName + ' style=background-color:' + color(f) + ';>' 
+ + suData[f].CategoryName + '</div>')); 
+     }*/
+</script>
+<p>
+</p>
+</body>
+</html>

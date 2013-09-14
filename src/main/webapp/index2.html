@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="d3lib/d3.js"></script>
+	<script type="text/javascript" src="d3lib/d3.csv.js"></script>
+	<script type="text/javascript" src="d3lib/d3.geom.js"></script>
+    <script type="text/javascript" src="d3lib/d3.layout.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/test.css" />
+	
+</head>
+
+<body>
+    <div id="title"></div>
+   
+	<div id="chart"></div>
+    <script type="text/javascript" charset="utf-8">
+    
+    d3.select("body").select("#title").text("US Olympic Medals").attr("class","title");
+    
+    d3.csv("US_medals.csv", function(data)
+    {
+	    var barWidth = 40;
+	    var width = 1200;
+	    var height = 450;
+	    var color = d3.scale.category20c();
+    		
+	    var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
+	    var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Gold; })]).
+	      rangeRound([0, height])
+	    
+	   
+	    
+    	var title = d3.select("#title").
+            append("g").
+            attr("width", width+600).
+            attr("height", 50);
+    	
+	    var barDemo = d3.select("#chart").
+	        append("svg:svg").
+	        attr("width", width+600).
+	        attr("height", height);
+
+	    barDemo.selectAll("line")
+		     .data(y.ticks(20))
+		     .enter().append("line")
+		     .attr("x1", 0)
+		     .attr("x2", 1200)
+		     .attr("y1", function(i){return height - y(i);})
+		     .attr("y2", function(i){return height - y(i);})
+		     .style("stroke", "#999");
+    		
+	    barDemo.selectAll("rect").
+	      data(data).
+	      enter().
+	      append("svg:rect").
+	      attr("x", function(datum, index) { return x(index); }).
+	      attr("y", function(datum) { return height - y(datum.Gold); }).
+	      attr("height", function(datum) { return y(datum.Gold); }).
+	      attr("width", barWidth).
+	      attr("fill", "gold")
+	      .on("mouseover",function(datum){d3.select("body").select("p").text(datum.Gold);})
+	      .on("mouseout",textOff);
+
+
+	    barDemo.selectAll("text")
+		    .data(y.ticks(20))
+		    .enter().append("svg:text")
+		    .attr("x", 10)
+		    .attr("y", function(i){return height - y(i)+5;})
+		    .attr("dy", "-0.5em") <!-- x and y displacement - for fine positioning of text -->
+		    .attr("text-anchor", "middle")
+		    .text(function(i){return i;})
+		    .attr("fill","black");
+
+        
+
+
+	    function textOff()
+	    {
+	    d3.select("body").select("p").text("");
+	    };
+
+	    }
+    );
+  </script>
+  
+</body>
+
+</html>
