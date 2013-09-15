@@ -13,6 +13,7 @@
     <div id="title"></div>
 	<div id="chart"></div>
 	<div id="label"></div>
+	<div id="button"></div>
     <script type="text/javascript" charset="utf-8">
     
     d3.select("body").select("#title").text("US Olympic Medals").attr("class","title");
@@ -43,7 +44,14 @@
         var labels = d3.select("#label").
             append("svg:svg").
             attr("Width", width+600).
-            attr("height", 100);
+            attr("height", 20);
+        
+        
+        var buttons = d3.select("#button").
+            append("svg:svg").
+            attr("Width", width+600).
+            attr("height", 150);
+        
         
 	    bars.selectAll("line")
 		     .data(y.ticks(20))
@@ -81,10 +89,26 @@
             .data(data)
             .enter()
             .append("svg:text")
-            .attr("x", function(datum, index) { return x(index); })
-            .attr("y", 20)
+            .attr("x", function(datum, index) { return x(index)+ 5; })
+            .attr("y", 15)
             .text(function(datum) { return datum.Year; });
         
+        cir = ["lightsteelblue", "gold", "silver", "darkgoldenrod"];
+        buttons.selectAll("circle")
+            .data(cir)
+            .enter().append("svg:circle")
+            .style("fill", function(d){return d;})
+            .attr("r", 30)
+            .attr("cx", function(datum, index) { return index*150 + 400; })
+            .attr("cy", 60)
+            .on("mousedown", enlarge);
+        
+        function enlarge(){
+            d3.selectAll("circle").transition()
+            .delay(0).duration(1000).attr("r", 30);
+            d3.select(this).transition()
+            .delay(0).duration(1000).attr("r", 60);
+        }
         
 
 	    function textOff()
