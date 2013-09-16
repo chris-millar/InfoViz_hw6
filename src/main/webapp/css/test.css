@@ -3,9 +3,9 @@
 	color: blue;
 }
 
-div.title
+#title
 {
-	color: blue;
+	color: orange;
 	text-align:center;
 	font-size:60px;
 	font-family:"Times New Roman", Times, serif;
@@ -26,6 +26,26 @@ div.bar
 	border-style:outset;
 	border-color: Blue;
 	border-width: 5px;
+	
+}
+
+#wrapper
+{
+	width: 1500px;
+	border: 1px solid black;
+	overflow: hidden;
+}
+
+#chart
+{
+	width: 1250px;
+	border: 1px solid red;
+	float: left;
+}
+
+#button
+{
+	border: 1px solid orange;
 	
 }
 

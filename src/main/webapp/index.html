@@ -11,9 +11,13 @@
 
 <body>
     <div id="title"></div>
-	<div id="chart"></div>
-	<div id="label"></div>
-	<div id="button"></div>
+    <div id="wrapper">
+        <div id="chart"></div>
+        <div id="label"></div>
+        <div id="button"></div>
+    </div>
+    
+
     <!--<button>Show Gold Medals</button> -->
     <script type="text/javascript" charset="utf-8">
     
@@ -29,8 +33,7 @@
 	    var color = d3.scale.category20c();
     		
 	    var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
-	    var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Total; })]).
-	      rangeRound([0, height])
+	    var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Total; })]).rangeRound([0, height])
 	    
 	   
 	    
@@ -54,6 +57,7 @@
                         .attr("Width", width+600)
                         .attr("height", 150);  
         
+        //Y-Axis Lines
 	    bars.selectAll("line")
 		    .data(y.ticks(20))
 		    .enter().append("line")
@@ -95,7 +99,7 @@
             .attr("width", barWidth)
             .attr("fill", pickColor("Total"));
 
-
+        // Y-Axis Labels
 	    bars.selectAll("text")
 		    .data(y.ticks(20))
 		    .enter().append("svg:text")
@@ -106,6 +110,7 @@
 		    .text(function(i){return i;})
 		    .attr("fill","black");
 
+        // Year Labels //
         labels.selectAll("text")
               .data(data)
               .enter()
@@ -126,14 +131,14 @@
                })
                .attr("r", function(datum, index){
                     if(index == 0){
-                        return 60;
+                        return 50;
                     }
                     else{
                         return 30;
                     }
                })
-               .attr("cx", function(datum, index) { return index*150 + 400; })
-               .attr("cy", 60)
+               .attr("cx", 1000)
+               .attr("cy", function(datum, index) { return index*150 + 100; })
                .on('click', changeData)
                .on("mousedown", enlarge);
 
@@ -144,8 +149,10 @@
                .attr("x", function(datum, index) {return index*150+210; })
                .attr("y", 135)
                .text(function(datum) { return datum; });
-        //d3.select('button').on('click', changeData("Gold"));
         
+               //.attr("cx", function(datum, index) { return index*150 + 400; })
+               //.attr("cy", 60)
+
         // Helper Functions //
 
         function enlarge(){
@@ -157,7 +164,7 @@
             d3.select(this)
               .transition()
               .delay(0).duration(500)
-              .attr("r", 60);
+              .attr("r", 50);
         }
         
         function changeData(field){
@@ -188,6 +195,7 @@
                     })
 	          .on("mouseout",textOff)
               .on("mouseout", function() {
+                    textOff();
                     console.log(field);
                     d3.select(this).style("fill", pickColor(field))
               })
