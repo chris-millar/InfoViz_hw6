@@ -17,6 +17,8 @@
     <!--<button>Show Gold Medals</button> -->
     <script type="text/javascript" charset="utf-8">
     
+    var barCount;
+
     d3.select("body").select("#title").text("US Olympic Medals").attr("class","title");
     
     d3.csv("US_medals.csv", function(data)
@@ -32,36 +34,34 @@
 	    
 	   
 	    
-    	var title = d3.select("#title").
-            append("g").
-            attr("width", width+600).
-            attr("height", 50);
+    	var title = d3.select("#title")
+                      .append("g")
+                      .attr("width", width+600)
+                      .attr("height", 50);
     	
-	    var bars = d3.select("#chart").
-	        append("svg:svg").
-	        attr("width", width+600).
-	        attr("height", height);
+	    var bars = d3.select("#chart")
+                     .append("svg:svg")
+                     .attr("width", width+600)
+                     .attr("height", height);
 
-        var labels = d3.select("#label").
-            append("svg:svg").
-            attr("Width", width+600).
-            attr("height", 20);
+        var labels = d3.select("#label")
+                       .append("svg:svg")
+                       .attr("Width", width+600)
+                       .attr("height", 20);
         
-        
-        var buttons = d3.select("#button").
-            append("svg:svg").
-            attr("Width", width+600).
-            attr("height", 150);
-        
+        var buttons = d3.select("#button")
+                        .append("svg:svg")
+                        .attr("Width", width+600)
+                        .attr("height", 150);  
         
 	    bars.selectAll("line")
-		     .data(y.ticks(20))
-		     .enter().append("line")
-		     .attr("x1", 0)
-		     .attr("x2", 1200)
-		     .attr("y1", function(i){return height - y(i);})
-		     .attr("y2", function(i){return height - y(i);})
-		     .style("stroke", "#999");
+		    .data(y.ticks(20))
+		    .enter().append("line")
+		    .attr("x1", 0)
+		    .attr("x2", 1200)
+		    .attr("y1", function(i){return height - y(i);})
+		    .attr("y2", function(i){return height - y(i);})
+		    .style("stroke", "#999");
     	
 
         // Initial Bars for Bargraph //	
@@ -75,21 +75,25 @@
             .attr("width", barWidth)
             .attr("fill", "green")
 	        .on("mouseover",function(datum){
-	           buttons.select("text").attr("x", 20)
-                      .attr("y", 85)
-                      .attr("font-family", "sans-serif")
-                      .attr("font-size", "25px")
-                      .attr("fill","red")
-                      .text(datum.Total + " Medals in " + datum.Games);
+                d3.select(this).style("fill", "#9999FF");
+	            buttons.select("text").attr("x", 20)
+                       .attr("y", 85)
+                       .attr("font-family", "sans-serif")
+                       .attr("font-size", "25px")
+                       .attr("fill","red")
+                       .text(datum.Total + " Medals in " + datum.Games);
             })
 	        .on("mouseout",textOff)
+            .on("mouseout", function() {
+                d3.select(this).style("fill", pickColor("Total"))
+              })
             .transition()
             .duration(3000)
             .attr("x", function(datum, index) { return x(index); })
             .attr("y", function(datum) { return height - y(datum.Total); })
             .attr("height", function(datum) { return y(datum.Total); })
             .attr("width", barWidth)
-            .attr("fill", "green");
+            .attr("fill", pickColor("Total"));
 
 
 	    bars.selectAll("text")
@@ -115,24 +119,23 @@
         cir = ["Total", "Gold", "Silver", "Bronze"];
         
         buttons.selectAll("circle")
-            .data(cir)
-            .enter().append("svg:circle")
-            .style("fill", function(d) {
-                return pickColor(d);
-            })
-            .attr("r", function(datum, index){
-                           if(index == 0){
-                            return 60;
-                           }
-                           else{
-                            return 30;
-                           }
-                      }
-            )
-            .attr("cx", function(datum, index) { return index*150 + 400; })
-            .attr("cy", 60)
-            .on('click', changeData)
-            .on("mousedown", enlarge);
+               .data(cir)
+               .enter().append("svg:circle")
+               .style("fill", function(d) {
+                    return pickColor(d);
+               })
+               .attr("r", function(datum, index){
+                    if(index == 0){
+                        return 60;
+                    }
+                    else{
+                        return 30;
+                    }
+               })
+               .attr("cx", function(datum, index) { return index*150 + 400; })
+               .attr("cy", 60)
+               .on('click', changeData)
+               .on("mousedown", enlarge);
 
         buttonLabel = ["", "Total Medals", "Gold Medals", "Silver Medals", "Bronze Medals"];
         buttons.selectAll("text")
@@ -163,6 +166,8 @@
           y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum[field]; })]).
 	      rangeRound([0, height])
           
+          window.barCount = 0;
+
           bars.selectAll("rect")
 	          .data(data)
 	          .enter()
@@ -173,6 +178,7 @@
               .attr("width", barWidth)
               .attr("fill", pickColor(field))
 	          .on("mouseover",function(datum){
+                   d3.select(this).style("fill", "#9999FF");
 	               buttons.select("text").attr("x", 20)
                           .attr("y", 85)
                           .attr("font-family", "sans-serif")
@@ -181,25 +187,43 @@
                           .text(datum[field] + " Medals in " + datum.Games);
                     })
 	          .on("mouseout",textOff)
+              .on("mouseout", function() {
+                    console.log(field);
+                    d3.select(this).style("fill", pickColor(field))
+              })
               .transition()
               .duration(3000)
               .attr("x", function(datum, index) { return x(index); })
               .attr("y", function(datum) { return height - y(datum[field]); })
               .attr("height", function(datum) { return y(datum[field]); })
               .attr("width", barWidth)
-              .attr("fill", pickColor(field));
+              .attr("fill", pickColor(field))
+              .attr("id", function() {
+                    console.log(window.barCount);
+                    var ret = "bar_" + window.barCount;
+                    window.barCount++;
+                    return ret;
+              });
+        }
+
+        function pickCount()
+        {
+            console.log(window.barCount);
+            var ret = "bar_" + window.barCount;
+            window.barCount++;
+            return ret;
         }
 
         function pickColor(field)
         {
             if(field == "Total")
-                return "green";
+                return "#336600";
             else if (field == "Gold")
-                return "yellow";
+                return "#FFCC00"; //"yellow";
             else if (field == "Silver")
-                return "grey";
+                return "Silver";
             else if (field == "Bronze")
-                return "orange";
+                return "#CC6600";
             else
                 return "red";
         }
