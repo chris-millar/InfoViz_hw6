@@ -1,0 +1,42 @@
+<html>
+<head>
+	<script type="text/javascript" src="libs/d3.v3.min.js"></script>
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/testing.js"></script>
+	<script type="text/javascript" src="js/HandleData.js"></script>
+	<script type="text/javascript" src="js/Banner.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/test.css" />
+
+	
+</head>
+
+<body>
+    
+    <p class="title">USA OLYMPIC MEDALS</p>
+    <div id="bars"></div>
+    <script>loadData() </script>
+	<button id="Button1" onClick="printData()"> Data </button>
+	<script type="text/javascript">
+	
+	var medalBars = d3.select("#bars").data(years).enter().append("g").
+	  attr("class", "bar");
+	  
+	
+	  
+
+
+	
+		  
+		 
+     
+	</script>
+
+	  <p>asdasdasd</p>
+	  <p>Chris was here!</p>
+	  
+	  
+
+</body>
+
+</html>
