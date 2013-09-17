@@ -24,13 +24,10 @@
 	    var barWidth = 40;
 	    var width = 1200;
 	    var height = 350;
-	    var color = d3.scale.category20c();
-    		
+	    var color = d3.scale.category20c();	
 	    var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
 	    var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Total; })]).
 	      rangeRound([0, height])
-	    
-	   
 	    
     	var title = d3.select("#title").
             append("g").
@@ -46,14 +43,12 @@
             append("svg:svg").
             attr("Width", width+600).
             attr("height", 20);
-        
-        
+          
         var buttons = d3.select("#button").
             append("svg:svg").
             attr("Width", width+600).
             attr("height", 150);
-        
-        
+          
 	    bars.selectAll("line")
 		     .data(y.ticks(20))
 		     .enter().append("line")
@@ -62,7 +57,6 @@
 		     .attr("y1", function(i){return height - y(i);})
 		     .attr("y2", function(i){return height - y(i);})
 		     .style("stroke", "#999");
-    	
 
         // Initial Bars for Bargraph //	
 	    bars.selectAll("rect")
@@ -91,7 +85,6 @@
             .attr("width", barWidth)
             .attr("fill", "green");
 
-
 	    bars.selectAll("text")
 		    .data(y.ticks(20))
 		    .enter().append("svg:text")
@@ -110,10 +103,8 @@
               .attr("y", 15)
               .text(function(datum) { return datum.Year; });
        
-
        // Circle Buttons //
         cir = ["Total", "Gold", "Silver", "Bronze"];
-        
         buttons.selectAll("circle")
             .data(cir)
             .enter().append("svg:circle")
@@ -144,7 +135,6 @@
         //d3.select('button').on('click', changeData("Gold"));
         
         // Helper Functions //
-
         function enlarge(){
             buttons.selectAll("circle")
                    .transition()
