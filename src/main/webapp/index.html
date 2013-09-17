@@ -148,7 +148,9 @@
 		    .text(function(i){return i;})
 		    .attr("fill","black");
         */
-/*
+        
+        var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
+        
         // Year Labels //
         labels.selectAll("text")
               .data(data)
@@ -157,7 +159,7 @@
               .attr("x", function(datum, index) { return x(index)+ 5; })
               .attr("y", 15)
               .text(function(datum) { return datum.Year; });
-*/
+
 
        // Circle Buttons //
         cir = ["Total", "Gold", "Silver", "Bronze"];
@@ -224,7 +226,8 @@
             .attr("x2", 1200)
             .attr("y1", function(i){return height - y(i);})
             .attr("y2", function(i){return height - y(i);})
-            .style("stroke", "#999");
+            .style("stroke", "black");
+            //.style("stroke", "#999");
 
           bars.selectAll("text").remove();
 
