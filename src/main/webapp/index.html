@@ -18,6 +18,7 @@
     <script type="text/javascript" charset="utf-8">
     
     var barCount;
+    var globMax;
 
     d3.select("body").select("#title").text("US Olympic Medals").attr("class","title");
     
@@ -28,9 +29,7 @@
 	    var height = 350;
 	    var color = d3.scale.category20c();
     		
-	    var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
-	    var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Total; })]).
-	      rangeRound([0, height])
+
 	    
 	   
 	    
@@ -53,7 +52,49 @@
                         .append("svg:svg")
                         .attr("Width", width+600)
                         .attr("height", 150);  
-        
+
+       changeData("Total");
+/*
+
+      var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
+      var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.Total; })]).rangeRound([0, height])      
+
+          globMax = 0;
+          var val = d3.max(data, function(datum) { 
+                window.globMax = Math.max(window.globMax, datum["Total"]);
+                return window.globMax; 
+          });
+          y = d3.scale.linear().domain([0, globMax]).rangeRound([0, height]);
+          //console.log(globMax);
+
+          // Y-Axis Lines //
+          bars.selectAll("line").remove();
+          bars.selectAll("line")
+            .data(y.ticks(20))
+            .enter().append("line")
+            .attr("x1", 0)
+            .attr("x2", 1200)
+            .attr("y1", function(i){return height - y(i);})
+            .attr("y2", function(i){return height - y(i);})
+            .style("stroke", "#999");
+
+          bars.selectAll("text").remove();
+
+          // Y-Axis Text //
+          bars.selectAll("text")
+            .data(y.ticks(20))
+            .enter().append("svg:text")
+            .attr("x", 10)
+            .attr("y", function(i){return height - y(i)+5;})
+            .attr("dy", "-0.5em") // x and y displacement - for fine positioning of text
+            .attr("text-anchor", "middle")
+            .text(function(i){return i;})
+            .attr("fill","black");
+
+      /////////////////////////////////////////////////////////////////////////////
+
+      // Y-Axis Lines //
+      /*
 	    bars.selectAll("line")
 		    .data(y.ticks(20))
 		    .enter().append("line")
@@ -62,8 +103,8 @@
 		    .attr("y1", function(i){return height - y(i);})
 		    .attr("y2", function(i){return height - y(i);})
 		    .style("stroke", "#999");
-    	
-
+    	*/
+/*
         // Initial Bars for Bargraph //	
 	    bars.selectAll("rect")
             .data(data)
@@ -81,7 +122,7 @@
                        .attr("font-family", "sans-serif")
                        .attr("font-size", "25px")
                        .attr("fill","red")
-                       .text(datum.Total + " Medals in " + datum.Games);
+                       .text(datum.Total +  " Total in " + datum.Games);
             })
 	        .on("mouseout",textOff)
             .on("mouseout", function() {
@@ -95,7 +136,8 @@
             .attr("width", barWidth)
             .attr("fill", pickColor("Total"));
 
-
+      // Y-Axis Text //
+      /*
 	    bars.selectAll("text")
 		    .data(y.ticks(20))
 		    .enter().append("svg:text")
@@ -105,7 +147,9 @@
 		    .attr("text-anchor", "middle")
 		    .text(function(i){return i;})
 		    .attr("fill","black");
-
+        */
+/*
+        // Year Labels //
         labels.selectAll("text")
               .data(data)
               .enter()
@@ -113,7 +157,7 @@
               .attr("x", function(datum, index) { return x(index)+ 5; })
               .attr("y", 15)
               .text(function(datum) { return datum.Year; });
-       
+*/
 
        // Circle Buttons //
         cir = ["Total", "Gold", "Silver", "Bronze"];
@@ -161,13 +205,43 @@
         }
         
         function changeData(field){
-          bars.selectAll("rect").remove().
           
-          y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum[field]; })]).
-	      rangeRound([0, height])
-          
+          globMax = 0;
+          var val = d3.max(data, function(datum) { 
+                window.globMax = Math.max(window.globMax, datum[field]);
+                return window.globMax; 
+          });
+          var x = d3.scale.linear().domain([0, data.length]).range([20, width]);
+          var y = d3.scale.linear().domain([0, globMax]).rangeRound([0, height]);
+          //console.log(globMax);
+
+          // Y-Axis Lines //
+          bars.selectAll("line").remove();
+          bars.selectAll("line")
+            .data(y.ticks(20))
+            .enter().append("line")
+            .attr("x1", 0)
+            .attr("x2", 1200)
+            .attr("y1", function(i){return height - y(i);})
+            .attr("y2", function(i){return height - y(i);})
+            .style("stroke", "#999");
+
+          bars.selectAll("text").remove();
+
+          // Y-Axis Text //
+          bars.selectAll("text")
+            .data(y.ticks(20))
+            .enter().append("svg:text")
+            .attr("x", 10)
+            .attr("y", function(i){return height - y(i)+5;})
+            .attr("dy", "-0.5em") // x and y displacement - for fine positioning of text
+            .attr("text-anchor", "middle")
+            .text(function(i){return i;})
+            .attr("fill","black");
+
           window.barCount = 0;
 
+          bars.selectAll("rect").remove();
           bars.selectAll("rect")
 	          .data(data)
 	          .enter()
@@ -177,18 +251,18 @@
               .attr("height", 0)
               .attr("width", barWidth)
               .attr("fill", pickColor(field))
-	          .on("mouseover",function(datum){
+	            .on("mouseover",function(datum){
                    d3.select(this).style("fill", "#9999FF");
 	               buttons.select("text").attr("x", 20)
                           .attr("y", 85)
                           .attr("font-family", "sans-serif")
                           .attr("font-size", "25px")
                           .attr("fill","red")
-                          .text(datum[field] + " Medals in " + datum.Games);
+                          .text(datum[field] + " " + field + " in " + datum.Games);
                     })
-	          .on("mouseout",textOff)
+	            .on("mouseout",textOff)
               .on("mouseout", function() {
-                    console.log(field);
+                    //console.log(field);
                     d3.select(this).style("fill", pickColor(field))
               })
               .transition()
@@ -199,7 +273,7 @@
               .attr("width", barWidth)
               .attr("fill", pickColor(field))
               .attr("id", function() {
-                    console.log(window.barCount);
+                    //console.log(window.barCount);
                     var ret = "bar_" + window.barCount;
                     window.barCount++;
                     return ret;
