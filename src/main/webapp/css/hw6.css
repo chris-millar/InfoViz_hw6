@@ -1,0 +1,49 @@
+#displayTextButton
+{
+	color: blue;
+}
+
+div.title
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	color: #333366;
+	text-align:center;
+	font-size:60px;
+	font-family:"Times New Roman", Times, serif;
+	/*border-style:outset; */
+	border-color:Black;
+	border-width:5px;
+	margin-bottom:10px;
+	width: 1200px;
+	/*border-bottom: 1px solid black;*/
+}
+
+
+#button
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1200px;
+}
+
+#chart
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1200px;
+}
+
+#label
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1200px;
+}
+
+
+
